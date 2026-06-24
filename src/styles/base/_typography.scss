@@ -1,0 +1,40 @@
+// =============================================================================
+// TYPOGRAFIE
+// =============================================================================
+// Hier stellen we de basisstijlen in voor tekst op de pagina.
+// Dit zijn globale stijlen voor HTML-elementen — geen BEM-klassen.
+// Specifieke typografie voor componenten hoort in het componentbestand thuis.
+// =============================================================================
+
+@use '../abstracts' as a; // Importeer variabelen en mixins
+
+
+// -----------------------------------------------------------------------------
+// BODY — BASIS LETTERTYPE
+// -----------------------------------------------------------------------------
+// Alle tekst erft van body, tenzij het component het overschrijft.
+// -----------------------------------------------------------------------------
+
+body {
+  font-family: a.$font-family-base; // Stel het basislettertype in voor de hele pagina
+  font-size: a.$font-size-base;     // 16px als uitgangspunt
+  color: a.$color-dark;             // Donkere tekstkleur voor goede leesbaarheid
+}
+
+
+// -----------------------------------------------------------------------------
+// KOPPEN (H1 t/m H6)
+// -----------------------------------------------------------------------------
+// Koppen krijgen een strakke regelafstand en vetgedrukt gewicht.
+// De werkelijke grootte stel je in per component of per sectie.
+// -----------------------------------------------------------------------------
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2;  // Strakke regelafstand voor grote tekst
+  font-weight: 700;  // Vetgedrukt voor duidelijke hiërarchie
+}

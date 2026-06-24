@@ -1,0 +1,17 @@
+// =============================================================================
+// MAIN.SCSS — HOOFDBESTAND
+// =============================================================================
+// Dit is het enige SCSS-bestand dat in layout.tsx wordt geïmporteerd.
+// Het laadt alle lagen in de juiste volgorde:
+//
+//   1. base       — reset + basisstijlen (altijd eerst)
+//   2. components — BEM-componenten
+//   3. helpers    — hulpklassen (altijd als laatste, zodat ze alles overschrijven)
+//
+// LET OP: abstracts staan hier NIET — die produceren geen CSS en worden
+// rechtstreeks in elk bestand geladen dat ze nodig heeft via @use 'abstracts'.
+// =============================================================================
+
+@use 'base';       // 1. Reset browserstijlen + basislettertype
+@use 'components'; // 2. Alle BEM-componenten
+@use 'helpers';    // 3. Hulpklassen (.container, .visually-hidden, etc.)

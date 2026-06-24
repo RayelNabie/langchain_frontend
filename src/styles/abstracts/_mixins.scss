@@ -1,0 +1,79 @@
+// =============================================================================
+// MIXINS
+// =============================================================================
+// Mixins zijn herbruikbare stukken CSS die je overal kunt aanroepen met @include.
+// Gebruik ze voor patronen die je vaker terugziet, zoals media queries of
+// flex-centrering. Zo schrijf je de logica maar één keer.
+// =============================================================================
+
+@use "variables" as v;
+
+// -----------------------------------------------------------------------------
+// MIXIN: respond-to
+// -----------------------------------------------------------------------------
+// Gebruik deze mixin om responsive stijlen te schrijven.
+// Schrijf altijd mobile-first: begin met de kleine scherm stijlen,
+// en gebruik @include respond-to(md) voor grotere schermen.
+//
+// Gebruik:
+//   .hero {
+//     font-size: 1rem;                  ← klein scherm
+//
+//     @include respond-min($tablet) {
+//       font-size: 2rem;               ← tablet en groter
+//     }
+//   }
+// -----------------------------------------------------------------------------
+
+@mixin respond-min($width) {
+  @media screen and (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin respond-max($width) {
+  @media screen and (max-width: #{($width - 1)}) {
+    @content;
+  }
+}
+
+@mixin respond-min-portrait($width) {
+  @media (orientation: portrait) and (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin respond-max-portrait($width) {
+  @media (orientation: portrait) and (max-width: #{($width - 1)}) {
+    @content;
+  }
+}
+
+@mixin respond-min-landscape($width) {
+  @media (orientation: landscape) and (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin respond-max-landscape($width) {
+  @media (orientation: landscape) and (max-width: #{($width - 1)}) {
+    @content;
+  }
+}
+// -----------------------------------------------------------------------------
+// MIXIN: flex-center
+// -----------------------------------------------------------------------------
+// Centreert de inhoud van een element zowel horizontaal als verticaal.
+// Handig voor knoppen, kaarten, hero-secties, etc.
+//
+// Gebruik:
+//   .card__image {
+//     @include flex-center;
+//   }
+// -----------------------------------------------------------------------------
+
+@mixin flex-center {
+  display: flex;
+  align-items: center; // Verticaal centreren
+  justify-content: center; // Horizontaal centreren
+}

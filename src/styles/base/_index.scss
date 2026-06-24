@@ -1,0 +1,10 @@
+// =============================================================================
+// BASE — INDEX
+// =============================================================================
+// Dit bestand exporteert alle basisstijlen.
+// De volgorde is belangrijk: reset eerst, dan typografie.
+// Reset verwijdert browserstijlen, typografie voegt de basisstijlen toe.
+// =============================================================================
+
+@forward 'reset';      // 1. Herstel browserstijlen naar nul
+@forward 'typography'; // 2. Stel basislettertype en -kleuren in

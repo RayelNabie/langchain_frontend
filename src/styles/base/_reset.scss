@@ -1,0 +1,118 @@
+// =============================================================================
+// RESET
+// =============================================================================
+// Browsers hebben elk hun eigen standaardstijlen (user agent stylesheet).
+// Die zorgen voor onverwachte marges, padding en afwijkende weergave.
+// Dit reset-bestand maakt een gelijke nulpositie voor alle browsers,
+// zodat jij volledige controle hebt over het uiterlijk.
+// =============================================================================
+
+
+// -----------------------------------------------------------------------------
+// BOX-SIZING
+// -----------------------------------------------------------------------------
+// Standaard telt de browser padding en border NIET mee in de breedte.
+// Met border-box wel — dat is veel intuïtiever om mee te werken.
+// De * selector zorgt dat dit voor elk element geldt.
+// -----------------------------------------------------------------------------
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box; // Padding en border tellen mee in de breedte
+  margin: 0;              // Verwijder standaard marge van alle elementen
+  padding: 0;             // Verwijder standaard padding van alle elementen
+}
+
+
+// -----------------------------------------------------------------------------
+// HTML BASIS
+// -----------------------------------------------------------------------------
+// font-size: 100% respecteert de lettergrootte die de gebruiker in de
+// browser heeft ingesteld (toegankelijkheid). Stel nooit px in op html —
+// dan negeer je de browservoorkeur van de gebruiker.
+// -----------------------------------------------------------------------------
+
+html {
+  font-size: 100%; // 1rem = de browserinstelling van de gebruiker (standaard 16px)
+}
+
+
+// -----------------------------------------------------------------------------
+// BODY BASIS
+// -----------------------------------------------------------------------------
+
+body {
+  line-height: 1.6;                      // Ruime regelafstand voor leesbaarheid
+  -webkit-font-smoothing: antialiased;   // Scherpere lettertypes op Mac/iOS (webkit)
+  -moz-osx-font-smoothing: grayscale;   // Scherpere lettertypes op Mac (Firefox)
+}
+
+
+// -----------------------------------------------------------------------------
+// VLOEIENDE SCROLL — ALLEEN ALS GEBRUIKER DAT WIL
+// -----------------------------------------------------------------------------
+// scroll-behavior: smooth kan vervelend zijn voor mensen met
+// evenwichtsstoornissen. prefers-reduced-motion: no-preference controleert
+// of de gebruiker géén voorkeur heeft voor minder beweging — alleen dan
+// zetten we de zachte animatie aan.
+// -----------------------------------------------------------------------------
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth; // Zachte animatie bij ankerlinks (#sectie)
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// MEDIA-ELEMENTEN
+// -----------------------------------------------------------------------------
+// Afbeeldingen en video's zijn standaard inline-elementen.
+// display: block verwijdert de kleine ruimte eronder (baseline gap).
+// max-width: 100% zorgt dat ze nooit buiten hun container vallen.
+// -----------------------------------------------------------------------------
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;   // Verwijdert baseline-ruimte onder afbeeldingen
+  max-width: 100%;  // Afbeeldingen schalen mee met hun container
+}
+
+
+// -----------------------------------------------------------------------------
+// FORMULIERELEMENTEN
+// -----------------------------------------------------------------------------
+// Knoppen en invoervelden erven standaard GEEN lettertype van de pagina.
+// Met font: inherit los je dat in één regel op.
+// -----------------------------------------------------------------------------
+
+input,
+button,
+textarea,
+select {
+  font: inherit; // Gebruik hetzelfde lettertype als de rest van de pagina
+}
+
+
+// -----------------------------------------------------------------------------
+// LINKS
+// -----------------------------------------------------------------------------
+
+a {
+  color: inherit;        // Erfde kleur van het bovenliggende element
+  text-decoration: none; // Geen standaard onderstreping — zelf toevoegen waar nodig
+}
+
+
+// -----------------------------------------------------------------------------
+// LIJSTEN
+// -----------------------------------------------------------------------------
+
+ul,
+ol {
+  list-style: none; // Verwijder opsommingstekens — zelf toevoegen indien gewenst
+}

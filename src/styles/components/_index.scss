@@ -1,0 +1,44 @@
+// =============================================================================
+// COMPONENTEN — INDEX
+// =============================================================================
+// Hier importeer je alle BEM-componenten van het project.
+// Elk component krijgt zijn eigen bestand in deze map.
+//
+// Naamgeving: _component-name.scss
+// Aanmaken:   maak het bestand aan en verwijder de commentaarmarkering hieronder.
+//
+// Voorbeeld van een BEM-component in _button.scss:
+//
+//   @use '../abstracts' as a;
+//
+//   // BLOK
+//   .button {
+//     padding: 0.75rem 1.5rem;
+//     border-radius: 4px;
+//
+//     // ELEMENT
+//     &__icon {
+//       margin-right: 0.5rem;
+//     }
+//
+//     // MODIFIER
+//     &--primary {
+//       background-color: a.$color-primary;
+//       color: a.$color-white;
+//     }
+//
+//     &--outline {
+//       background-color: transparent;
+//       border: 2px solid a.$color-primary;
+//     }
+//   }
+// =============================================================================
+
+// Voeg hier jouw componenten toe zodra je ze aanmaakt:
+// @forward 'button';
+// @forward 'card';
+// @forward 'hero';
+// @forward 'nav';
+// @forward 'form';
+// @forward 'section';
+// @forward 'footer';

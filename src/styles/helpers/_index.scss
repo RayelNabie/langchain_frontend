@@ -1,0 +1,53 @@
+// =============================================================================
+// HELPERS / HULPKLASSEN
+// =============================================================================
+// Helpers zijn kleine, enkeldoelige klassen die je direct op een element
+// plaatst. Ze overschrijven stijlen of voegen een eenmalige aanpassing toe.
+//
+// Gebruik helpers spaarzaam — zware afhankelijkheid van helpers wijst er
+// vaak op dat een component een betere oplossing is.
+// =============================================================================
+
+
+// -----------------------------------------------------------------------------
+// HELPER: .visually-hidden
+// -----------------------------------------------------------------------------
+// Verbergt tekst voor het oog, maar houdt het zichtbaar voor schermlezers.
+// Gebruik dit voor toegankelijkheid, bijv. een 'Sla navigatie over'-link
+// of een label dat je visueel niet wilt tonen maar wel semantisch nodig hebt.
+// -----------------------------------------------------------------------------
+
+.visually-hidden {
+  position: absolute;       // Haal uit de normale documentstroom
+  width: 1px;               // Zo klein mogelijk maken
+  height: 1px;              // Zo klein mogelijk maken
+  padding: 0;               // Geen extra ruimte
+  margin: -1px;             // Verberg eventuele overflow
+  overflow: hidden;         // Knip de inhoud af
+  clip: rect(0, 0, 0, 0);  // Verouderd maar breed ondersteund — verbergt het element
+  clip-path: inset(50%);   // Moderne vervanger van clip (CSS Masking Level 1)
+  white-space: nowrap;      // Voorkom dat tekst op een nieuwe regel staat
+  border: 0;                // Geen zichtbare rand
+}
+
+
+// -----------------------------------------------------------------------------
+// HELPER: .container
+// -----------------------------------------------------------------------------
+// Beperkt de breedte van de inhoud en centreert deze op de pagina.
+// Gebruik .container als wrapper binnen een sectie om de inhoud te begrenzen.
+//
+// Gebruik:
+//   <section class="hero">
+//     <div class="container">
+//       ...inhoud...
+//     </div>
+//   </section>
+// -----------------------------------------------------------------------------
+
+.container {
+  width: 100%;            // Vul de volle breedte van het scherm
+  max-width: 1200px;      // Maar niet breder dan 1200px
+  margin-inline: auto;    // Centreer horizontaal (links en rechts)
+  padding-inline: 1.5rem; // Adembreedte aan de zijkanten op kleine schermen
+}

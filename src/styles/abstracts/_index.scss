@@ -1,0 +1,12 @@
+// =============================================================================
+// ABSTRACTS — INDEX
+// =============================================================================
+// Dit bestand exporteert alle abstracte hulpmiddelen (variabelen en mixins)
+// zodat andere bestanden ze kunnen importeren met één @use 'abstracts'.
+//
+// Let op: abstracts produceren GEEN CSS-uitvoer.
+// Ze bevatten alleen definities die andere bestanden gebruiken.
+// =============================================================================
+
+@forward 'variables'; // Alle $variabelen beschikbaar stellen
+@forward 'mixins';    // Alle mixins beschikbaar stellen

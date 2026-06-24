@@ -1,0 +1,60 @@
+// =============================================================================
+// VARIABELEN
+// =============================================================================
+// Hier bewaren we alle herbruikbare waarden van het project.
+// Door variabelen te gebruiken hoef je een kleur of maat maar op één
+// plek te veranderen — de rest van het project past zich automatisch aan.
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// KLEUREN
+// -----------------------------------------------------------------------------
+// Geef kleuren altijd een betekenisvolle naam, niet een beschrijvende naam.
+// Gebruik $color-primary, NIET $color-blue.
+// Zo kun je later de huisstijl aanpassen zonder alle bestandsnamen te zoeken.
+// -----------------------------------------------------------------------------
+
+$color-primary: #3a86ff; // Hoofdkleur — knoppen, links, accenten
+$color-secondary: #ff006e; // Accentkleur — highlights, badges
+$color-dark: #1a1a2e; // Donkere achtergrond / tekst
+$color-light: #f8f9fa; // Lichte achtergrond
+$color-white: #ffffff; // Puur wit
+
+// -----------------------------------------------------------------------------
+// WITRUIMTE (SPACING)
+// -----------------------------------------------------------------------------
+// Een vaste schaal zorgt voor consistente witruimte door de hele pagina.
+// Gebruik altijd een van deze waarden — nooit willekeurige pixels.
+// -----------------------------------------------------------------------------
+
+$spacing-xs: 0.5rem; //  8px — kleine ruimtes, bijv. tussen icoon en tekst
+$spacing-sm: 1rem; // 16px — standaard marge binnen componenten
+$spacing-md: 2rem; // 32px — ruimte tussen secties / grotere componenten
+$spacing-lg: 4rem; // 64px — ruimte tussen grote pagina-secties
+$spacing-xl: 8rem; // 128px — hero-achtige ademruimte
+
+// -----------------------------------------------------------------------------
+// TYPOGRAFIE
+// -----------------------------------------------------------------------------
+// Lettertypes en groottes worden hier centraal ingesteld.
+// clamp() zorgt dat tekst automatisch meebeweegt met de schermgrootte.
+// -----------------------------------------------------------------------------
+
+$font-family-base: system-ui, sans-serif; // Systeemfont — snel en vertrouwd
+$font-size-base: 1rem; // 16px — standaard leestekst
+$font-size-lg: 1.25rem; // 20px — iets grotere tekst
+$font-size-xl: 2rem; // 32px — titels en koppen
+$font-size-hero: clamp(2rem, 5vw, 4rem); // Responsieve heldengrootte
+
+// -----------------------------------------------------------------------------
+// BREEKPUNTEN (BREAKPOINTS)
+// -----------------------------------------------------------------------------
+// Hieronder staan de schermbreedtes waarop het ontwerp 'breekt' naar een
+// andere indeling. Gebruik deze samen met de mixin in _mixins.scss.
+// -----------------------------------------------------------------------------
+
+$mobile: 550px;
+$tablet: 768px;
+$desktop: 1024px;
+$desktop-xl: 1400px;
+$desktop-xxl: 1800px;
