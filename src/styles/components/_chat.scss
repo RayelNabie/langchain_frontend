@@ -1,0 +1,202 @@
+// =============================================================================
+// CHAT — LLM INTERFACE
+// =============================================================================
+// BEM-component voor de chatpagina (zie Figma "LLM interface").
+// Mobile-first: zijbalk staat op kleine schermen boven de chat,
+// vanaf tablet ernaast.
+// =============================================================================
+
+@use '../abstracts' as a;
+
+// BLOK
+.chat {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: a.$color-chat-bg;
+
+  @include a.respond-min(a.$tablet) {
+    flex-direction: row;
+  }
+
+  // ELEMENT — zijbalk met logo en geschiedenis
+  &__sidebar {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: a.$spacing-md;
+    padding: a.$spacing-md a.$spacing-sm;
+    background-color: a.$color-chat-sidebar;
+    border-radius: 0 0 20px 0;
+
+    @include a.respond-min(a.$tablet) {
+      width: 220px;
+      border-radius: 0 20px 0 0;
+    }
+  }
+
+  &__logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  &__history {
+    display: flex;
+    flex-direction: column;
+    gap: a.$spacing-sm;
+    width: 100%;
+    max-width: 180px;
+  }
+
+  &__history-title {
+    font-family: a.$font-family-heading;
+    font-size: a.$font-size-base;
+    color: a.$color-white;
+    text-align: center;
+    text-decoration: underline;
+  }
+
+  &__history-list {
+    display: flex;
+    flex-direction: column;
+    gap: a.$spacing-xs;
+  }
+
+  &__history-item {
+    height: 30px;
+    background-color: a.$color-chat-bg;
+    border-radius: 20px 0 20px 0;
+
+    &:nth-child(even) {
+      border-radius: 0 20px 0 20px;
+    }
+  }
+
+  // ELEMENT — hoofdgedeelte (berichten + invoerbalk)
+  &__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__messages {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: a.$spacing-md;
+    padding: a.$spacing-md;
+    overflow-y: auto;
+  }
+
+  // ELEMENT — los bericht, uitlijning verschilt per rol (modifier)
+  &__message {
+    display: flex;
+    align-items: center;
+    gap: a.$spacing-sm;
+    max-width: 900px;
+
+    &--assistant {
+      justify-content: flex-start;
+    }
+
+    &--user {
+      justify-content: flex-end;
+      margin-left: auto;
+    }
+  }
+
+  &__avatar {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+  }
+
+  &__bubble {
+    font-family: a.$font-family-chat;
+    font-size: a.$font-size-base;
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+    padding: a.$spacing-sm a.$spacing-md;
+    border-radius: 20px 0 20px 0;
+
+    .chat__message--assistant & {
+      background-color: a.$color-chat-assistant-bubble;
+      color: a.$color-dark;
+    }
+
+    .chat__message--user & {
+      background-color: a.$color-chat-user-bubble;
+      color: a.$color-white;
+      text-align: right;
+    }
+  }
+
+  // ELEMENT — invoerbalk onderaan
+  &__inputbar {
+    display: flex;
+    align-items: center;
+    gap: a.$spacing-sm;
+    padding: a.$spacing-md;
+    background-color: a.$color-chat-input-bg;
+    border: 1px solid a.$color-chat-input-border;
+    border-radius: 0 20px 0 0;
+  }
+
+  &__inputfield {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: a.$spacing-sm;
+    min-width: 0;
+  }
+
+  &__input {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    font-family: a.$font-family-ui;
+    font-size: a.$font-size-lg;
+    color: a.$color-dark;
+
+    &::placeholder {
+      color: rgba(51, 51, 51, 0.3);
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__upload {
+    display: inline-flex;
+    align-items: center;
+    gap: a.$spacing-xs;
+    align-self: flex-start;
+    padding: 0.5rem a.$spacing-sm;
+    background-color: a.$color-chat-button;
+    color: a.$color-chat-bg;
+    font-family: a.$font-family-ui;
+    font-size: a.$font-size-base;
+    border: 0;
+    border-radius: 0 20px 0 20px;
+    cursor: pointer;
+  }
+
+  &__send {
+    flex-shrink: 0;
+    @include a.flex-center;
+    width: 48px;
+    height: 48px;
+    background-color: a.$color-chat-button;
+    border: 0;
+    border-radius: 0 20px 0 20px;
+    cursor: pointer;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}

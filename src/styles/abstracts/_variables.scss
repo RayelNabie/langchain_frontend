@@ -20,6 +20,15 @@ $color-dark: #1a1a2e; // Donkere achtergrond / tekst
 $color-light: #f8f9fa; // Lichte achtergrond
 $color-white: #ffffff; // Puur wit
 
+// Chat-interface kleuren (zie Figma "LLM interface")
+$color-chat-bg: #f5f1ed; // Pagina-achtergrond
+$color-chat-sidebar: #145248; // Donkergroene zijbalk
+$color-chat-input-bg: #ebebeb; // Achtergrond invoerbalk
+$color-chat-input-border: rgba(20, 82, 72, 0.2); // Rand invoerbalk
+$color-chat-button: #70798c; // Upload- en verstuurknop
+$color-chat-assistant-bubble: #cedfdb; // Bubbel van de assistent
+$color-chat-user-bubble: #31af9a; // Bubbel van de gebruiker
+
 // -----------------------------------------------------------------------------
 // WITRUIMTE (SPACING)
 // -----------------------------------------------------------------------------
@@ -45,6 +54,11 @@ $font-size-base: 1rem; // 16px — standaard leestekst
 $font-size-lg: 1.25rem; // 20px — iets grotere tekst
 $font-size-xl: 2rem; // 32px — titels en koppen
 $font-size-hero: clamp(2rem, 5vw, 4rem); // Responsieve heldengrootte
+
+// Lettertypes voor de chat-interface (geladen via next/font/google in layout.tsx)
+$font-family-heading: var(--font-fraunces), serif; // "today" / "yesterday" titels
+$font-family-chat: var(--font-quantico), sans-serif; // Chatberichten
+$font-family-ui: Geneva, Tahoma, Verdana, sans-serif; // Invoerveld en knoppen (systeemfont, geen Google Font)
 
 // -----------------------------------------------------------------------------
 // BREEKPUNTEN (BREAKPOINTS)

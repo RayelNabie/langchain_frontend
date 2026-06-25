@@ -1,169 +1,106 @@
+import { Fragment } from "react";
+
+type Message = {
+  role: "user" | "assistant";
+  text: string;
+};
+
+const messages: Message[] = [
+  { role: "user", text: "Werkt dit ding?" },
+  {
+    role: "assistant",
+    text: "Ja—ik kan reageren. Wat wil je precies dat ik voor je doe?",
+  },
+  { role: "user", text: "Analyseer mijn team" },
+  {
+    role: "assistant",
+    text:
+      "Dummytext 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Dummytext 2: Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.\nDummytext 3: Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.",
+  },
+  {
+    role: "user",
+    text:
+      "Je bent een expert analyticus, in kinderlijke taal analyseer dit team. Geef me 5 bullet points over elke speler en maak hier een perfecte tactiek voor die perfect aansluit op mijn team",
+  },
+];
+
+// ponytail: geschiedenisitems zijn lege plaatshouders, zo staat het ook in de Figma-export
+function HistoryGroup({ title }: { title: string }) {
+  return (
+    <section className="chat__history-group">
+      <h2 className="chat__history-title">{title}</h2>
+      <ul className="chat__history-list">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <li key={i} className="chat__history-item" />
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
-    <>
-      {/* Navigatiebalk */}
-      <header className="header">
-        <div className="container">
-          <nav className="nav" aria-label="Primaire navigatie">
-            <a className="nav__logo" href="#">
-              Workshop
-            </a>
-            <ul className="nav__list">
-              <li className="nav__item">
-                <a className="nav__link" href="#about">
-                  Over
-                </a>
-              </li>
-              <li className="nav__item">
-                <a className="nav__link" href="#cards">
-                  Kaarten
-                </a>
-              </li>
-              <li className="nav__item">
-                <a className="nav__link nav__link--cta" href="#contact">
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </nav>
+    <div className="chat">
+      <aside className="chat__sidebar">
+        <img className="chat__logo" src="/images/logo.png" alt="Football Manager" />
+        <div className="chat__history">
+          <HistoryGroup title="today" />
+          <HistoryGroup title="yesterday" />
         </div>
-      </header>
+      </aside>
 
-      <main>
-        {/* Hero sectie (hoofdafbeelding) */}
-        <section className="hero" id="about" aria-labelledby="hero-heading">
-          <div className="container">
-            <div className="hero__content">
-              <h1 className="hero__title" id="hero-heading">BEM + SCSS Workshop</h1>
-              <p className="hero__subtitle">
-                Leer hoe je schaalbare, onderhoudbare CSS schrijft met de
-                BEM-methodologie.
+      <div className="chat__main">
+        <ul className="chat__messages">
+          {messages.map((message, i) => (
+            <li
+              key={i}
+              className={`chat__message chat__message--${message.role}`}
+            >
+              {message.role === "assistant" && (
+                <img
+                  className="chat__avatar"
+                  src="/images/avatar-assistant.png"
+                  alt=""
+                />
+              )}
+              <p className="chat__bubble">
+                {message.text.split("\n").map((line, j) => (
+                  <Fragment key={j}>
+                    {j > 0 && <br />}
+                    {line}
+                  </Fragment>
+                ))}
               </p>
-              <div className="hero__actions">
-                <a className="button button--primary" href="#cards">
-                  Aan de slag
-                </a>
-                <a className="button button--outline" href="#contact">
-                  Meer info
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Kaarten sectie */}
-        <section className="section" id="cards" aria-labelledby="cards-heading">
-          <div className="container">
-            <h2 className="section__title" id="cards-heading">Kaarten</h2>
-            <div className="card-grid">
-              {/* Kaart 1 — Blok */}
-              <article className="card">
-                <div className="card__image" aria-hidden="true"></div>
-                <div className="card__body">
-                  <h3 className="card__title">Blok</h3>
-                  <p className="card__text">
-                    De hoogste abstractie van een nieuw component. Een
-                    zelfstandige entiteit die op zichzelf betekenis heeft.
-                  </p>
-                  <a className="card__link" href="#">
-                    Lees meer
-                  </a>
-                </div>
-              </article>
-
-              {/* Kaart 2 — Element (uitgelicht met modifier) */}
-              <article className="card card--featured">
-                <div className="card__image" aria-hidden="true"></div>
-                <div className="card__body">
-                  <h3 className="card__title">Element</h3>
-                  <p className="card__text">
-                    Onderdelen van een blok zonder zelfstandige betekenis.
-                    Gescheiden door dubbele underscore:{" "}
-                    <code>blok__element</code>.
-                  </p>
-                  <a className="card__link" href="#">
-                    Lees meer
-                  </a>
-                </div>
-              </article>
-
-              {/* Kaart 3 — Modifier */}
-              <article className="card">
-                <div className="card__image" aria-hidden="true"></div>
-                <div className="card__body">
-                  <h3 className="card__title">Modifier</h3>
-                  <p className="card__text">
-                    Vlaggen op blokken of elementen die het uiterlijk aanpassen.
-                    Gescheiden door dubbel koppelteken:{" "}
-                    <code>blok--modifier</code>.
-                  </p>
-                  <a className="card__link" href="#">
-                    Lees meer
-                  </a>
-                </div>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        {/* Contactformulier */}
-        <section className="section section--dark" id="contact" aria-labelledby="contact-heading">
-          <div className="container">
-            <h2 className="section__title" id="contact-heading">Contact</h2>
-            <form className="form">
-              {/* Naamveld */}
-              <div className="form__group">
-                <label className="form__label" htmlFor="name">
-                  Naam
-                </label>
-                <input
-                  className="form__input"
-                  type="text"
-                  id="name"
-                  placeholder="Jouw naam"
+              {message.role === "user" && (
+                <img
+                  className="chat__avatar"
+                  src="/images/avatar-user.png"
+                  alt=""
                 />
-              </div>
+              )}
+            </li>
+          ))}
+        </ul>
 
-              {/* E-mailveld */}
-              <div className="form__group">
-                <label className="form__label" htmlFor="email">
-                  E-mail
-                </label>
-                <input
-                  className="form__input"
-                  type="email"
-                  id="email"
-                  placeholder="jouw@email.nl"
-                />
-              </div>
-
-              {/* Berichtveld */}
-              <div className="form__group">
-                <label className="form__label" htmlFor="message">
-                  Bericht
-                </label>
-                <textarea
-                  className="form__textarea"
-                  id="message"
-                  rows={4}
-                  placeholder="Jouw bericht"
-                ></textarea>
-              </div>
-
-              <button className="button button--primary" type="submit">
-                Verstuur bericht
-              </button>
-            </form>
+        <form className="chat__inputbar">
+          <div className="chat__inputfield">
+            <input
+              className="chat__input"
+              type="text"
+              name="question"
+              placeholder="Stel jouw football manager vraag hier"
+              aria-label="Stel jouw football manager vraag hier"
+            />
+            <button type="button" className="chat__upload">
+              <img src="/images/icon-plus.png" alt="" width={24} height={24} />
+              Team.html
+            </button>
           </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <p className="footer__copy">&copy; 2026 DSI Workshop</p>
-        </div>
-      </footer>
-    </>
+          <button type="submit" className="chat__send" aria-label="Verstuur bericht">
+            <img src="/images/icon-send.png" alt="" width={24} height={24} />
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
