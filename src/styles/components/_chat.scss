@@ -2,8 +2,7 @@
 // CHAT — LLM INTERFACE
 // =============================================================================
 // BEM-component voor de chatpagina (zie Figma "LLM interface").
-// Mobile-first: zijbalk staat op kleine schermen boven de chat,
-// vanaf tablet ernaast.
+// Mobile-first, met drie schermgroottes: mobile (basis) → tablet → desktop.
 // =============================================================================
 
 @use '../abstracts' as a;
@@ -13,7 +12,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: a.$color-chat-bg;
+  background-color: a.$color-light;
 
   @include a.respond-min(a.$tablet) {
     flex-direction: row;
@@ -25,20 +24,48 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: a.$spacing-md;
-    padding: a.$spacing-md a.$spacing-sm;
-    background-color: a.$color-chat-sidebar;
+    gap: a.$spacing-sm;
+    padding: a.$spacing-sm;
+    background-color: a.$color-primary;
     border-radius: 0 0 20px 0;
 
     @include a.respond-min(a.$tablet) {
-      width: 220px;
+      gap: a.$spacing-md;
+      padding: a.$spacing-md a.$spacing-sm;
       border-radius: 0 20px 0 0;
+      width: 200px;
+    }
+
+    @include a.respond-min(a.$desktop) {
+      width: 220px;
+    }
+
+    // MODIFIER — compacte zijbalk zonder geschiedenis (lege staat)
+    &--compact {
+      @include a.respond-min(a.$tablet) {
+        width: 90px;
+      }
+
+      @include a.respond-min(a.$desktop) {
+        width: 108px;
+      }
     }
   }
 
   &__logo {
-    width: 60px;
-    height: 60px;
+    width: 44px;
+    height: 44px;
+    view-transition-name: chat-logo;
+
+    @include a.respond-min(a.$tablet) {
+      width: 52px;
+      height: 52px;
+    }
+
+    @include a.respond-min(a.$desktop) {
+      width: 60px;
+      height: 60px;
+    }
   }
 
   &__history {
@@ -64,12 +91,16 @@
   }
 
   &__history-item {
-    height: 30px;
-    background-color: a.$color-chat-bg;
+    height: 22px;
+    background-color: a.$color-light;
     border-radius: 20px 0 20px 0;
 
     &:nth-child(even) {
       border-radius: 0 20px 0 20px;
+    }
+
+    @include a.respond-min(a.$tablet) {
+      height: 30px;
     }
   }
 
@@ -81,13 +112,43 @@
     min-width: 0;
   }
 
+  // ELEMENT — lege staat vóór het eerste bericht, morft naar &__main
+  // (zie withViewTransition in page.tsx)
+  &__empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: a.$spacing-xl;
+    padding: a.$spacing-md;
+    text-align: center;
+
+    .chat__inputbar {
+      width: 100%;
+      max-width: 457px;
+      border-radius: 20px;
+    }
+  }
+
+  &__empty-heading {
+    font-family: a.$font-family-heading;
+    font-size: a.$font-size-hero;
+    color: a.$color-dark;
+  }
+
   &__messages {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: a.$spacing-md;
-    padding: a.$spacing-md;
+    gap: a.$spacing-sm;
+    padding: a.$spacing-sm;
     overflow-y: auto;
+
+    @include a.respond-min(a.$tablet) {
+      gap: a.$spacing-md;
+      padding: a.$spacing-md;
+    }
   }
 
   // ELEMENT — los bericht, uitlijning verschilt per rol (modifier)
@@ -109,8 +170,58 @@
 
   &__avatar {
     flex-shrink: 0;
-    width: 60px;
-    height: 60px;
+    width: 36px;
+    height: 36px;
+
+    @include a.respond-min(a.$tablet) {
+      width: 48px;
+      height: 48px;
+    }
+
+    @include a.respond-min(a.$desktop) {
+      width: 60px;
+      height: 60px;
+    }
+
+    // Gebruikersavatar — getekend met CSS, geen afbeelding beschikbaar
+    &--user {
+      @include a.flex-center;
+      background-color: a.$color-primary;
+      border-radius: 14px;
+    }
+  }
+
+  // Ring, hoofd en schouders schalen mee als percentage van de avatar — geen
+  // extra breakpoints nodig.
+  &__avatar-ring {
+    position: relative;
+    width: 60%;
+    height: 60%;
+    overflow: hidden;
+    border: 2px solid a.$color-light;
+    border-radius: 50%;
+
+    &::before, // hoofd
+    &::after {  // schouders
+      content: '';
+      position: absolute;
+      left: 50%;
+      border: 2px solid a.$color-light;
+      border-radius: 50%;
+      transform: translateX(-50%);
+    }
+
+    &::before {
+      top: 18%;
+      width: 32%;
+      height: 32%;
+    }
+
+    &::after {
+      bottom: -18%;
+      width: 80%;
+      height: 55%;
+    }
   }
 
   &__bubble {
@@ -118,8 +229,19 @@
     font-size: a.$font-size-base;
     letter-spacing: 0.04em;
     line-height: 1.6;
-    padding: a.$spacing-sm a.$spacing-md;
+    padding: a.$spacing-xs a.$spacing-sm;
     border-radius: 20px 0 20px 0;
+    max-width: 100%;
+
+    @include a.respond-min(a.$tablet) {
+      padding: a.$spacing-sm a.$spacing-md;
+      max-width: 70%;
+    }
+
+    @include a.respond-min(a.$desktop) {
+      padding: a.$spacing-sm a.$spacing-lg;
+      max-width: 777px;
+    }
 
     .chat__message--assistant & {
       background-color: a.$color-chat-assistant-bubble;
@@ -127,9 +249,36 @@
     }
 
     .chat__message--user & {
-      background-color: a.$color-chat-user-bubble;
-      color: a.$color-white;
+      background-color: a.$color-secondary;
+      color: a.$color-light;
       text-align: right;
+    }
+
+    // MODIFIER — "aan het typen"-indicator terwijl het antwoord laadt
+    &--typing {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+
+  &__typing-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: a.$color-dark;
+    opacity: 0.4;
+
+    &:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    &:nth-child(4) {
+      animation-delay: 0.4s;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      animation: chat-typing 1.2s infinite ease-in-out;
     }
   }
 
@@ -138,10 +287,19 @@
     display: flex;
     align-items: center;
     gap: a.$spacing-sm;
-    padding: a.$spacing-md;
+    padding: a.$spacing-sm;
     background-color: a.$color-chat-input-bg;
     border: 1px solid a.$color-chat-input-border;
     border-radius: 0 20px 0 0;
+    view-transition-name: chat-inputbar;
+
+    @include a.respond-min(a.$tablet) {
+      padding: a.$spacing-md;
+    }
+
+    @include a.respond-min(a.$desktop) {
+      padding: a.$spacing-lg;
+    }
   }
 
   &__inputfield {
@@ -157,8 +315,12 @@
     border: 0;
     background: transparent;
     font-family: a.$font-family-ui;
-    font-size: a.$font-size-lg;
+    font-size: a.$font-size-base;
     color: a.$color-dark;
+
+    @include a.respond-min(a.$desktop) {
+      font-size: a.$font-size-lg;
+    }
 
     &::placeholder {
       color: rgba(51, 51, 51, 0.3);
@@ -176,27 +338,115 @@
     align-self: flex-start;
     padding: 0.5rem a.$spacing-sm;
     background-color: a.$color-chat-button;
-    color: a.$color-chat-bg;
+    color: a.$color-light;
     font-family: a.$font-family-ui;
     font-size: a.$font-size-base;
     border: 0;
     border-radius: 0 20px 0 20px;
     cursor: pointer;
+
+    @include a.respond-min(a.$desktop) {
+      font-size: a.$font-size-lg;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
 
   &__send {
     flex-shrink: 0;
     @include a.flex-center;
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     background-color: a.$color-chat-button;
     border: 0;
     border-radius: 0 20px 0 20px;
     cursor: pointer;
 
-    img {
-      width: 24px;
-      height: 24px;
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
+
+    @include a.respond-min(a.$tablet) {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  &__error {
+    padding: 0 a.$spacing-sm;
+    color: #b3261e;
+    font-size: a.$font-size-base;
+  }
+
+  // Iconen — getekend met CSS (clip-path / pseudo-elementen), geen afbeelding beschikbaar
+  &__icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+
+    &--plus {
+      position: relative;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        background-color: a.$color-light;
+        border-radius: 2px;
+      }
+
+      &::before { // horizontale balk
+        top: 50%;
+        left: 10%;
+        width: 80%;
+        height: 3px;
+        transform: translateY(-50%);
+      }
+
+      &::after { // verticale balk
+        top: 10%;
+        left: 50%;
+        width: 3px;
+        height: 80%;
+        transform: translateX(-50%);
+      }
+    }
+
+    &--arrow {
+      background-color: a.$color-light;
+      clip-path: polygon(0% 30%, 50% 30%, 50% 10%, 100% 50%, 50% 90%, 50% 70%, 0% 70%);
+    }
+
+    &--spinner {
+      border: 3px solid rgba(a.$color-light, 0.35);
+      border-top-color: a.$color-light;
+      border-radius: 50%;
+
+      @media (prefers-reduced-motion: no-preference) {
+        animation: chat-spin 0.7s linear infinite;
+      }
+    }
+  }
+}
+
+@keyframes chat-typing {
+  0%, 80%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+
+  40% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@keyframes chat-spin {
+  to {
+    transform: rotate(360deg);
   }
 }
