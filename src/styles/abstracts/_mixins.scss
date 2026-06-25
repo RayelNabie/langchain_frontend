@@ -31,35 +31,6 @@
   }
 }
 
-@mixin respond-max($width) {
-  @media screen and (max-width: #{($width - 1)}) {
-    @content;
-  }
-}
-
-@mixin respond-min-portrait($width) {
-  @media (orientation: portrait) and (min-width: $width) {
-    @content;
-  }
-}
-
-@mixin respond-max-portrait($width) {
-  @media (orientation: portrait) and (max-width: #{($width - 1)}) {
-    @content;
-  }
-}
-
-@mixin respond-min-landscape($width) {
-  @media (orientation: landscape) and (min-width: $width) {
-    @content;
-  }
-}
-
-@mixin respond-max-landscape($width) {
-  @media (orientation: landscape) and (max-width: #{($width - 1)}) {
-    @content;
-  }
-}
 // -----------------------------------------------------------------------------
 // MIXIN: flex-center
 // -----------------------------------------------------------------------------
