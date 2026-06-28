@@ -1,24 +1,21 @@
 // =============================================================================
-// CHAT — LLM INTERFACE
-// =============================================================================
-// BEM-component voor de chatpagina (zie Figma "LLM interface").
-// Mobile-first, met drie schermgroottes: mobile (basis) → tablet → desktop.
+// CHAT — Football AI Coach interface
+// Dark sport-tech theme. Mobile-first: mobile → tablet → desktop.
 // =============================================================================
 
 @use '../abstracts' as a;
 
-// BLOK
 .chat {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: a.$color-light;
+  background-color: a.$color-dark;
 
   @include a.respond-min(a.$tablet) {
     flex-direction: row;
   }
 
-  // ELEMENT — zijbalk met logo en geschiedenis
+  // --- Zijbalk ---
   &__sidebar {
     flex-shrink: 0;
     display: flex;
@@ -27,12 +24,11 @@
     gap: a.$spacing-sm;
     padding: a.$spacing-sm;
     background-color: a.$color-primary;
-    border-radius: 0 0 20px 0;
 
     @include a.respond-min(a.$tablet) {
       gap: a.$spacing-md;
       padding: a.$spacing-md a.$spacing-sm;
-      border-radius: 0 20px 0 0;
+      border-radius: 0 16px 0 0;
       width: 200px;
     }
 
@@ -40,7 +36,6 @@
       width: 220px;
     }
 
-    // MODIFIER — compacte zijbalk zonder geschiedenis (lege staat)
     &--compact {
       @include a.respond-min(a.$tablet) {
         width: 90px;
@@ -78,10 +73,11 @@
 
   &__history-title {
     font-family: a.$font-family-heading;
-    font-size: a.$font-size-base;
-    color: a.$color-white;
+    font-size: 0.875rem;
+    color: rgba(a.$color-light, 0.6);
     text-align: center;
-    text-decoration: underline;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
   &__history-list {
@@ -92,19 +88,25 @@
 
   &__history-item {
     height: 22px;
-    background-color: a.$color-light;
+    background-color: rgba(a.$color-light, 0.08);
     border-radius: 20px 0 20px 0;
+    cursor: pointer;
+    transition: background-color 0.15s;
+
+    &:hover {
+      background-color: rgba(a.$color-light, 0.14);
+    }
 
     &:nth-child(even) {
       border-radius: 0 20px 0 20px;
     }
 
     @include a.respond-min(a.$tablet) {
-      height: 30px;
+      height: 28px;
     }
   }
 
-  // ELEMENT — hoofdgedeelte (berichten + invoerbalk)
+  // --- Hoofdgebied ---
   &__main {
     flex: 1;
     display: flex;
@@ -112,31 +114,92 @@
     min-width: 0;
   }
 
-  // ELEMENT — lege staat vóór het eerste bericht, morft naar &__main
-  // (zie withViewTransition in page.tsx)
+  // --- Lege staat ---
   &__empty {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: a.$spacing-xl;
+    gap: a.$spacing-md;
     padding: a.$spacing-md;
     text-align: center;
 
     .chat__inputbar {
       width: 100%;
-      max-width: 457px;
-      border-radius: 20px;
+      max-width: 520px;
+      border-radius: 16px;
     }
+  }
+
+  &__empty-content {
+    display: flex;
+    flex-direction: column;
+    gap: a.$spacing-xs;
+    align-items: center;
   }
 
   &__empty-heading {
     font-family: a.$font-family-heading;
     font-size: a.$font-size-hero;
-    color: a.$color-dark;
+    color: a.$color-light;
+    text-wrap: balance;
+    line-height: 1.1;
   }
 
+  &__empty-sub {
+    font-family: a.$font-family-ui;
+    font-size: a.$font-size-base;
+    color: a.$color-muted;
+  }
+
+  // --- Suggestie chips ---
+  &__suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: a.$spacing-xs;
+    justify-content: center;
+    max-width: 520px;
+  }
+
+  &__suggestion {
+    padding: 0.5rem a.$spacing-sm;
+    background-color: transparent;
+    color: a.$color-accent;
+    font-family: a.$font-family-ui;
+    font-size: 0.9rem;
+    border: 1px solid rgba(a.$color-accent, 0.35);
+    border-radius: 0 16px 0 16px;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+
+    &:hover:not(:disabled) {
+      background-color: rgba(a.$color-accent, 0.1);
+      border-color: a.$color-accent;
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    // Staggered entrance
+    @media (prefers-reduced-motion: no-preference) {
+      animation: chat-fade-up 0.3s ease-out both;
+
+      @for $i from 1 through 4 {
+        &:nth-child(#{$i}) {
+          animation-delay: #{$i * 0.06}s;
+        }
+      }
+    }
+  }
+
+  // --- Berichten ---
   &__messages {
     flex: 1;
     display: flex;
@@ -151,12 +214,15 @@
     }
   }
 
-  // ELEMENT — los bericht, uitlijning verschilt per rol (modifier)
   &__message {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: a.$spacing-sm;
     max-width: 900px;
+
+    @media (prefers-reduced-motion: no-preference) {
+      animation: chat-fade-up 0.2s ease-out;
+    }
 
     &--assistant {
       justify-content: flex-start;
@@ -174,39 +240,37 @@
     height: 36px;
 
     @include a.respond-min(a.$tablet) {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
     }
 
     @include a.respond-min(a.$desktop) {
-      width: 60px;
-      height: 60px;
+      width: 52px;
+      height: 52px;
     }
 
-    // Gebruikersavatar — getekend met CSS, geen afbeelding beschikbaar
     &--user {
       @include a.flex-center;
       background-color: a.$color-primary;
-      border-radius: 14px;
+      border-radius: 10px;
+      flex-shrink: 0;
     }
   }
 
-  // Ring, hoofd en schouders schalen mee als percentage van de avatar — geen
-  // extra breakpoints nodig.
   &__avatar-ring {
     position: relative;
     width: 60%;
     height: 60%;
     overflow: hidden;
-    border: 2px solid a.$color-light;
+    border: 2px solid rgba(a.$color-light, 0.7);
     border-radius: 50%;
 
-    &::before, // hoofd
-    &::after {  // schouders
+    &::before,
+    &::after {
       content: '';
       position: absolute;
       left: 50%;
-      border: 2px solid a.$color-light;
+      border: 2px solid rgba(a.$color-light, 0.7);
       border-radius: 50%;
       transform: translateX(-50%);
     }
@@ -227,8 +291,8 @@
   &__bubble {
     font-family: a.$font-family-chat;
     font-size: a.$font-size-base;
-    letter-spacing: 0.04em;
-    line-height: 1.6;
+    letter-spacing: 0.03em;
+    line-height: 1.65;
     padding: a.$spacing-xs a.$spacing-sm;
     border-radius: 20px 0 20px 0;
     max-width: 100%;
@@ -240,21 +304,22 @@
 
     @include a.respond-min(a.$desktop) {
       padding: a.$spacing-sm a.$spacing-lg;
-      max-width: 777px;
+      max-width: 700px;
     }
 
     .chat__message--assistant & {
       background-color: a.$color-chat-assistant-bubble;
-      color: a.$color-dark;
+      color: a.$color-light;
+      border-radius: 0 20px 20px 20px;
     }
 
     .chat__message--user & {
       background-color: a.$color-secondary;
       color: a.$color-light;
       text-align: right;
+      border-radius: 20px 0 0 20px;
     }
 
-    // MODIFIER — "aan het typen"-indicator terwijl het antwoord laadt
     &--typing {
       display: flex;
       align-items: center;
@@ -263,26 +328,21 @@
   }
 
   &__typing-dot {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    background-color: a.$color-dark;
-    opacity: 0.4;
+    background-color: a.$color-accent;
+    opacity: 0.5;
 
-    &:nth-child(3) {
-      animation-delay: 0.2s;
-    }
-
-    &:nth-child(4) {
-      animation-delay: 0.4s;
-    }
+    &:nth-child(3) { animation-delay: 0.18s; }
+    &:nth-child(4) { animation-delay: 0.36s; }
 
     @media (prefers-reduced-motion: no-preference) {
       animation: chat-typing 1.2s infinite ease-in-out;
     }
   }
 
-  // ELEMENT — invoerbalk onderaan
+  // --- Invoerbalk ---
   &__inputbar {
     display: flex;
     align-items: center;
@@ -290,15 +350,11 @@
     padding: a.$spacing-sm;
     background-color: a.$color-chat-input-bg;
     border: 1px solid a.$color-chat-input-border;
-    border-radius: 0 20px 0 0;
+    border-radius: 0 16px 0 0;
     view-transition-name: chat-inputbar;
 
     @include a.respond-min(a.$tablet) {
       padding: a.$spacing-md;
-    }
-
-    @include a.respond-min(a.$desktop) {
-      padding: a.$spacing-lg;
     }
   }
 
@@ -306,7 +362,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: a.$spacing-sm;
+    gap: a.$spacing-xs;
     min-width: 0;
   }
 
@@ -316,14 +372,14 @@
     background: transparent;
     font-family: a.$font-family-ui;
     font-size: a.$font-size-base;
-    color: a.$color-dark;
+    color: a.$color-light;
 
     @include a.respond-min(a.$desktop) {
       font-size: a.$font-size-lg;
     }
 
     &::placeholder {
-      color: rgba(51, 51, 51, 0.3);
+      color: a.$color-muted;
     }
 
     &:focus {
@@ -336,21 +392,23 @@
     align-items: center;
     gap: a.$spacing-xs;
     align-self: flex-start;
-    padding: 0.5rem a.$spacing-sm;
-    background-color: a.$color-chat-button;
-    color: a.$color-light;
+    padding: 0.4rem a.$spacing-sm;
+    background-color: rgba(a.$color-light, 0.07);
+    color: a.$color-muted;
     font-family: a.$font-family-ui;
-    font-size: a.$font-size-base;
-    border: 0;
-    border-radius: 0 20px 0 20px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(a.$color-light, 0.1);
+    border-radius: 0 12px 0 12px;
     cursor: pointer;
+    transition: background-color 0.15s;
 
-    @include a.respond-min(a.$desktop) {
-      font-size: a.$font-size-lg;
+    &:hover:not(:disabled) {
+      background-color: rgba(a.$color-light, 0.12);
+      color: a.$color-light;
     }
 
     &:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
     }
   }
@@ -358,16 +416,40 @@
   &__send {
     flex-shrink: 0;
     @include a.flex-center;
-    width: 40px;
-    height: 40px;
-    background-color: a.$color-chat-button;
+    width: 42px;
+    height: 42px;
+    background-color: a.$color-accent;
     border: 0;
-    border-radius: 0 20px 0 20px;
+    border-radius: 0 14px 0 14px;
     cursor: pointer;
+    transition: opacity 0.1s, transform 0.08s;
+
+    &:hover:not(:disabled) {
+      opacity: 0.88;
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+
+    &:focus-visible {
+      outline: 2px solid a.$color-accent;
+      outline-offset: 3px;
+    }
 
     &:disabled {
-      opacity: 0.5;
+      opacity: 0.35;
       cursor: not-allowed;
+    }
+
+    // Donkere iconen op de lime knop
+    .chat__icon--arrow {
+      background-color: a.$color-dark;
+    }
+
+    .chat__icon--spinner {
+      border-color: rgba(a.$color-dark, 0.3);
+      border-top-color: a.$color-dark;
     }
 
     @include a.respond-min(a.$tablet) {
@@ -377,16 +459,17 @@
   }
 
   &__error {
-    padding: 0 a.$spacing-sm;
-    color: #b3261e;
-    font-size: a.$font-size-base;
+    padding: 0 a.$spacing-sm a.$spacing-xs;
+    color: a.$color-error;
+    font-size: 0.9rem;
+    font-family: a.$font-family-ui;
   }
 
-  // Iconen — getekend met CSS (clip-path / pseudo-elementen), geen afbeelding beschikbaar
+  // --- CSS-iconen ---
   &__icon {
     display: block;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
 
     &--plus {
       position: relative;
@@ -395,35 +478,37 @@
       &::after {
         content: '';
         position: absolute;
-        background-color: a.$color-light;
+        background-color: a.$color-muted;
         border-radius: 2px;
       }
 
-      &::before { // horizontale balk
+      &::before {
         top: 50%;
         left: 10%;
         width: 80%;
-        height: 3px;
+        height: 2px;
         transform: translateY(-50%);
       }
 
-      &::after { // verticale balk
+      &::after {
         top: 10%;
         left: 50%;
-        width: 3px;
+        width: 2px;
         height: 80%;
         transform: translateX(-50%);
       }
     }
 
     &--arrow {
-      background-color: a.$color-light;
+      background-color: a.$color-dark;
       clip-path: polygon(0% 30%, 50% 30%, 50% 10%, 100% 50%, 50% 90%, 50% 70%, 0% 70%);
     }
 
     &--spinner {
-      border: 3px solid rgba(a.$color-light, 0.35);
-      border-top-color: a.$color-light;
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid rgba(a.$color-dark, 0.3);
+      border-top-color: a.$color-dark;
       border-radius: 50%;
 
       @media (prefers-reduced-motion: no-preference) {
@@ -433,20 +518,29 @@
   }
 }
 
+// --- Animaties ---
+@keyframes chat-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes chat-typing {
   0%, 80%, 100% {
     transform: translateY(0);
-    opacity: 0.4;
+    opacity: 0.5;
   }
-
   40% {
-    transform: translateY(-4px);
+    transform: translateY(-5px);
     opacity: 1;
   }
 }
 
 @keyframes chat-spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
